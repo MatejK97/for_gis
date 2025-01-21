@@ -3,7 +3,8 @@
 __usage="Use manage.sh with the following options 
         'start' -- to start the docker compose containers 
         'stop' -- to stop the docker compose containers 
-        'logs' -- to see the docker compose container logs 
+        'logs' -- to see the docker compose container logs
+	'status' -- to see the status of the docker compose containers
         'help' -- to see all of the available arguments "
 
 logs=`docker compose logs`
