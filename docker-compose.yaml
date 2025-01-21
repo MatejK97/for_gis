@@ -1,0 +1,59 @@
+---
+services:
+  web:
+    image: httpd
+    ports:
+      - "8080:80"
+    volumes:
+      - ./static:/usr/local/apache2/htdocs
+    restart: always
+  
+  db:
+    image: mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: somedb
+      MYSQL_USER: dbadmin
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    restart: always
+    secrets:
+      - db_root_password
+      - db_password
+    networks:
+      - wordpress-vpc
+
+  php:
+    image: wordpress
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: dbadmin
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+      WORDPRESS_DB_NAME: somedb
+    volumes:
+      - ./status:/usr/src/wordpress/
+    secrets:
+      - db_password
+    restart: always
+    networks:
+      - wordpress-vpc
+
+secrets:
+  db_root_password:
+    file: secrets/db_root_password.txt
+  db_password:
+    file: secrets/db_password.txt
+
+networks:
+  wordpress-vpc:
+    driver: bridge
+
+volumes:
+  mysql:
+  static:
+  status:
