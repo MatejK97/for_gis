@@ -1,10 +1,10 @@
 <h1>DESCRIPTION</h1>
 <p>
   This is a docker compose with 3 containers: <br>
-    1. Nginx container proxying traffic from port 80 to 8080
-    2. PHP container to run our application
-    3. MySQL container for storing the database
-</p>
+    1. Nginx container proxying traffic from port 80 to 8080 <br>
+    2. PHP container to run our application <br>
+    3. MySQL container for storing the database <br>
+</p> 
 
 <p>
   We have a manage.sh script with which we can manipulate the docker compose <br>
