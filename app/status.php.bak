@@ -1,0 +1,87 @@
+<?php
+function check_service($host, $port, $timeout = 1) {
+    try {
+        $socket = @fsockopen($host, $port, $errno, $errstr, $timeout);
+        if ($socket) {
+            fclose($socket);
+            return true;
+        }
+        return false;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+function status_badge($status) {
+    $color = $status ? 'green' : 'red';
+    $text = $status ? 'OK' : 'ERROR';
+    return "<span style='background-color: $color; color: white; padding: 2px 8px; border-radius: 4px'>$text</span>";
+}
+
+header('Content-Type: text/html');
+
+try {
+    $db_status = false;
+    $db = new PDO(
+        "mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME'),
+        getenv('DB_USER'),
+        getenv('DB_PASSWORD')
+    );
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db_status = true;
+} catch(PDOException $e) {
+    $db_status = false;
+}
+
+$services = [
+    'NGINX' => check_service('web', 80),
+    'PHP' => check_service('php-app', 9000),
+    'MySQL' => $db_status,
+];
+
+// Check for service statuses
+$all_ok = true;
+$failed_service = null;
+foreach ($services as $name => $status) {
+    if (!$status) {
+        $all_ok = false;
+        $failed_service = $name;
+        break;
+    }
+}
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Status</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { border-collapse: collapse; width: 400px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f5f5f5; }
+        .status-cell { width: 100px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Service Status</h1>
+    <table>
+        <tr>
+            <th>Service</th>
+            <th>Status</th>
+        </tr>
+        <?php foreach ($services as $service => $status): ?>
+        <tr>
+            <td><?= $service ?></td>
+            <td class="status-cell"><?= status_badge($status) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    
+    <?php if ($all_ok): ?>
+        <p style="margin-top: 20px; color: green; font-weight: bold;">Sve radi!</p>
+    <?php else: ?>
+        <p style="margin-top: 20px; color: red; font-weight: bold;"><?= htmlspecialchars($failed_service) ?> neradi !</p>
+    <?php endif; ?>
+</body>
+</html>
