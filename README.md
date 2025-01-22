@@ -1,14 +1,16 @@
 <h1>DESCRIPTION</h1>
+
+ <h4> This is a docker compose with 3 containers: </h4>
 <p>
-  This is a docker compose with 3 containers: <br>
     1. Nginx container proxying traffic from port 80 to 8080 <br>
     2. PHP container to run our application <br>
     3. MySQL container for storing the database <br>
 </p> 
 
+
+  <h4>We have a manage.sh script with which we can manipulate the docker compose </h4>
+  <h5>Run manage.sh with any of the following options: </h5>
 <p>
-  We have a manage.sh script with which we can manipulate the docker compose <br>
-  Run manage.sh with any of the following options: <br>
         'start' -- to start the docker compose containers <br>
         'stop' -- to stop the docker compose containers <br>
         'logs' -- to see the docker compose container logs <br>
