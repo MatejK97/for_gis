@@ -25,3 +25,8 @@
 <p>sh manage.sh start</p>
 <h4>Check the status of docker containers</h4>
 <p>sh mange.sh status</p>
+
+<h3>Testing</h3>
+<p>For loading the index.php use <a href="http://localhost:8080"> http://localhost:8080 </a><br>
+  For testing the MySQL connection use <a href="http://localhost:8080/status.php"> http://localhost:8080/status.php </a>
+</p>
