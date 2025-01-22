@@ -1,12 +1,9 @@
 <h1>DESCRIPTION</h1>
 <p>
   This is a docker compose with 3 containers: <br>
-    1. Apache containter that serves a static website which runs on port 8080 <br>
-        - uses the static directory to persistant volume <br>
-    2. Mysql Database container that is connected to WordPress <br>
-        - uses the mysql directory for presistant volume <br>
-    3. WordPress container which runs on port 8081 and has a custom page, status.php that shows us if we connected to MySQL <br>
-        - uses the status directory for presistnat volume <br>
+    1. Nginx container proxying traffic from port 80 to 8080
+    2. PHP container to run our application
+    3. MySQL container for storing the database
 </p>
 
 <p>
