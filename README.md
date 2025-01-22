@@ -18,3 +18,13 @@
         'status' -- to see the status of the docker compose containers <br>
         'help' -- to see all of the available arguments <br>
 </p>
+
+<h3>SETUP</h3>
+<h4>Clone the git repository</h4>
+<p>git clone https://github.com/MatejK97/for_gis.git</p>
+<h4>Cd into the repository</h4>
+<p>cd for_gis/</p>
+<h4>Start the docker compose</h4>
+<p>sh manage.sh start</p>
+<h4>Check the status of docker containers</h4>
+<p>sh mange.sh status</p>
